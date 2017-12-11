@@ -14,4 +14,9 @@ class MazeOfTwistyTrampolinesTest {
     fun `real data`() {
         assertEquals(359348, mazeOfTwistyTrampolines(readTestInput("input/MazeOfTwistyTrampolines.txt")))
     }
+
+    @Test
+    fun `real data2`() {
+        assertEquals(27688760, mazeOfTwistyTrampolines2(readTestInput("input/MazeOfTwistyTrampolines.txt")))
+    }
 }
