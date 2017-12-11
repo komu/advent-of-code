@@ -1,5 +1,5 @@
-import jdk.tools.jlink.resources.plugins
 import org.gradle.kotlin.dsl.kotlin
+import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
 plugins {
     kotlin("jvm") version "1.2.0"
@@ -19,4 +19,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+}
+
+kotlin {
+    experimental.coroutines = Coroutines.ENABLE
 }
