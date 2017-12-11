@@ -1,19 +1,23 @@
 package komu.adventofcode
 
-fun memoryReallocation(input: String): Int =
+fun memoryReallocation(input: String): Pair<Int,Int> =
     memoryReallocation(input.lineToInts())
 
-fun memoryReallocation(offsets: List<Int>): Int {
-    val seen = mutableSetOf<List<Int>>()
+fun memoryReallocation(offsets: List<Int>): Pair<Int,Int> {
+    val seen = mutableMapOf<List<Int>, Int>()
 
     var state = offsets
     var steps = 0
-    while (seen.add(state)) {
+
+    while (true) {
+        val start = seen[state]
+        if (start != null)
+            return Pair(steps, steps - start)
+
+        seen[state] = steps
         state = reallocate(state)
         steps++
     }
-
-    return steps
 }
 
 private fun reallocate(state: List<Int>): List<Int> {
