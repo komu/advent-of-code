@@ -15,3 +15,8 @@ fun readTestInputLines(path: String): List<String> {
     val input = classLoader.getResourceAsStream(path) ?: error("could not open '$path'")
     return input.use { it.reader().readLines() }
 }
+
+fun readTestInput(path: String): String {
+    val input = classLoader.getResourceAsStream(path) ?: error("could not open '$path'")
+    return input.use { it.reader().readText() }
+}
