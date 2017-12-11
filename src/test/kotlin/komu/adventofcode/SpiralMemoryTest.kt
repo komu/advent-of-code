@@ -17,4 +17,9 @@ class SpiralMemoryTest {
     fun `correct answer`() {
         assertEquals(419, spiralMemorySteps(289326))
     }
+
+    @Test
+    fun `print coordinates`() {
+        assertEquals(295229, spiralPart2(289326))
+    }
 }
