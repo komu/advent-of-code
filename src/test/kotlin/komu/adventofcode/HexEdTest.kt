@@ -20,6 +20,6 @@ class HexEdTest {
 
     @Test
     fun `puzzle input 2`() {
-        assertEquals(3, hexEdMaxDistance(readTestInput("input/HexEd.txt")))
+        assertEquals(1512, hexEdMaxDistance(readTestInput("input/HexEd.txt")))
     }
 }
