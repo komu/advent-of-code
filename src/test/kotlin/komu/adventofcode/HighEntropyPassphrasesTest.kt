@@ -18,4 +18,9 @@ class HighEntropyPassphrasesTest {
     fun `count valid passphrases in input`() {
         assertEquals(337, countValidPassphrases(readTestInputLines("input/HighEntropyPassphrases.txt")))
     }
+
+    @Test
+    fun `count valid passphrases in input2`() {
+        assertEquals(231, countValidPassphrases2(readTestInputLines("input/HighEntropyPassphrases.txt")))
+    }
 }

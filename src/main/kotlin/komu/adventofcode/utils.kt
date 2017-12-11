@@ -9,6 +9,9 @@ fun String.lineToInts(): List<Int> =
 fun String.linesToIntGrid(): List<List<Int>> =
     lines().filter(String::isNotEmpty).map(String::lineToInts)
 
+fun String.sorted(): String =
+    toList().sorted().joinToString()
+
 private val classLoader = object {}.javaClass.classLoader
 
 fun readTestInputLines(path: String): List<String> {
