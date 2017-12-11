@@ -8,3 +8,10 @@ fun String.lineToInts(): List<Int> =
 
 fun String.linesToIntGrid(): List<List<Int>> =
     lines().map(String::lineToInts)
+
+private val classLoader = object {}.javaClass.classLoader
+
+fun readTestInputLines(path: String): List<String> {
+    val input = classLoader.getResourceAsStream(path) ?: error("could not open '$path'")
+    return input.use { it.reader().readLines() }
+}
