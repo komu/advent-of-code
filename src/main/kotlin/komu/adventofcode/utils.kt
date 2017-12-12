@@ -7,7 +7,7 @@ fun String.lineToInts(): List<Int> =
     splitBySpace().map { it.toInt() }
 
 fun String.commaSeparatedInts(): List<Int> =
-    split(", ").map { it.toInt() }
+    split(Regex(""",\s*""")).map { it.toInt() }
 
 fun String.linesToIntGrid(): List<List<Int>> =
     nonEmptyLines().map(String::lineToInts)
@@ -20,6 +20,21 @@ fun List<String>.withoutEmptyLines() =
 
 fun String.nonEmptyLines() =
     lines().withoutEmptyLines()
+
+fun IntArray.swap(i: Int, j: Int) {
+    val tmp = this[i]
+    this[i] = this[j]
+    this[j] = tmp
+}
+
+private const val HEX_CHARS = "0123456789abcdef"
+
+fun List<Int>.octetsToHex(): String = buildString {
+    for (octet in this@octetsToHex) {
+        append(HEX_CHARS[(octet and 0xF0).ushr(4)])
+        append(HEX_CHARS[octet and 0x0F])
+    }
+}
 
 private val classLoader = object {}.javaClass.classLoader
 
