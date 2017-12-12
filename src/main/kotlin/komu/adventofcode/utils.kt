@@ -7,10 +7,16 @@ fun String.lineToInts(): List<Int> =
     splitBySpace().map { it.toInt() }
 
 fun String.linesToIntGrid(): List<List<Int>> =
-    lines().filter(String::isNotEmpty).map(String::lineToInts)
+    nonEmptyLines().map(String::lineToInts)
 
 fun String.sorted(): String =
     toList().sorted().joinToString()
+
+fun List<String>.withoutEmptyLines() =
+    filter(String::isNotEmpty)
+
+fun String.nonEmptyLines() =
+    lines().withoutEmptyLines()
 
 private val classLoader = object {}.javaClass.classLoader
 
