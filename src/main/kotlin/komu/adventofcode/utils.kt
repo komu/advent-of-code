@@ -6,6 +6,9 @@ fun String.splitBySpace() =
 fun String.lineToInts(): List<Int> =
     splitBySpace().map { it.toInt() }
 
+fun String.commaSeparatedInts(): List<Int> =
+    split(", ").map { it.toInt() }
+
 fun String.linesToIntGrid(): List<List<Int>> =
     nonEmptyLines().map(String::lineToInts)
 
