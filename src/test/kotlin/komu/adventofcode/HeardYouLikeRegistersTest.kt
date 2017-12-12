@@ -29,6 +29,6 @@ class HeardYouLikeRegistersTest {
 
     @Test
     fun `real input 2`() {
-        assertEquals(4647, heardYouLikeRegisters(readTestInput("input/HeardYouLikeRegisters.txt")).second)
+        assertEquals(5590, heardYouLikeRegisters(readTestInput("input/HeardYouLikeRegisters.txt")).second)
     }
 }
