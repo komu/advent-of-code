@@ -1,5 +1,7 @@
 package komu.adventofcode
 
+import org.intellij.lang.annotations.Language
+
 fun String.splitBySpace() =
     split(Regex("""\s+"""))
 
@@ -43,8 +45,8 @@ fun readTestInputLines(path: String): List<String> {
     return input.use { it.reader().readLines() }
 }
 
-fun readTestInput(path: String): String {
-    val input = classLoader.getResourceAsStream(path) ?: error("could not open '$path'")
+fun readTestInput(@Language("file-reference") path: String): String {
+    val input = classLoader.getResourceAsStream(path.removePrefix("/")) ?: error("could not open '$path'")
     return input.use { it.reader().readText() }
 }
 
