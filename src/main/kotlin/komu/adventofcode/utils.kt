@@ -38,6 +38,14 @@ fun List<Int>.octetsToHex(): String = buildString {
     }
 }
 
+val String.hexBits get() = flatMap { it.hexBits }
+
+private val Char.hexBits: List<Boolean>
+    get() {
+        val value = HEX_CHARS.indexOf(this.toLowerCase())
+        return Array(4) { i -> ((value shr (3 - i)) and 1) != 0 }.asList()
+    }
+
 private val classLoader = object {}.javaClass.classLoader
 
 fun readTestInputLines(path: String): List<String> {
