@@ -1,18 +1,18 @@
 package komu.adventofcode
 
-fun knotHash2(input: String): String {
+fun knotHash(input: String): String {
     val lengths = lengthsFromAscii(input)
 
-    val sparseHash = knotHash(lengths, rounds = 64)
+    val sparseHash = knotHashArray(lengths, rounds = 64)
     return denseHash(sparseHash)
 }
 
-fun knotHash1(lengths: List<Int>, size: Int = 256, rounds: Int = 1): Int {
-    val array = knotHash(lengths, size, rounds)
+fun knotHashChecksum(lengths: List<Int>, size: Int = 256, rounds: Int = 1): Int {
+    val array = knotHashArray(lengths, size, rounds)
     return array[0] * array[1]
 }
 
-private fun knotHash(lengths: List<Int>, size: Int = 256, rounds: Int): IntArray {
+private fun knotHashArray(lengths: List<Int>, size: Int = 256, rounds: Int): IntArray {
     val array = IntArray(size) { it }
     var position = 0
     var skip = 0
