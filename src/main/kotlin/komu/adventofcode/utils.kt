@@ -1,6 +1,7 @@
 package komu.adventofcode
 
 import org.intellij.lang.annotations.Language
+import java.util.*
 
 fun String.splitBySpace() =
     split(Regex("""\s+"""))
@@ -27,6 +28,14 @@ fun IntArray.swap(i: Int, j: Int) {
     val tmp = this[i]
     this[i] = this[j]
     this[j] = tmp
+}
+
+fun <T> MutableList<T>.swap(i: Int, j: Int) {
+    Collections.swap(this, i, j)
+}
+
+fun <T> MutableList<T>.rotate(distance: Int) {
+    Collections.rotate(this, distance)
 }
 
 private const val HEX_CHARS = "0123456789abcdef"
