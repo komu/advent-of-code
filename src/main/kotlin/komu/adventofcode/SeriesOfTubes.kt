@@ -1,0 +1,56 @@
+package komu.adventofcode
+
+fun seriesOfTubes(input: String): Pair<String, Int> {
+    val diagram = Diagram(input)
+    var pos = diagram.start
+    var dir = Direction.DOWN
+
+    val output = StringBuilder()
+    var steps = 0
+
+    while (pos in diagram) {
+        val ch = diagram[pos]
+        if (ch.isLetter()) {
+            output.append(ch)
+        } else if (ch == '+') {
+            for (d in Direction.values()) {
+                val neighbor = pos + d
+                if (neighbor in diagram && !d.isOpposite(dir) && diagram[neighbor] != ' ') {
+                    dir = d
+                    break
+                }
+            }
+        } else if (ch != '|' && ch != '-') {
+            break
+        }
+
+        steps++
+        pos += dir
+    }
+
+    return Pair(output.toString(), steps)
+}
+
+private class Diagram(input: String) {
+    private val grid = input.lines()
+
+    val start = Point(grid.first().indexOf('|'), 0)
+
+    operator fun contains(p: Point) = p.y in grid.indices && p.x in grid[p.y].indices
+
+    operator fun get(p: Point) = grid[p.y][p.x]
+}
+
+
+private data class Point(val x: Int, val y: Int) {
+    operator fun plus(d: Direction) = Point(x + d.dx, y + d.dy)
+}
+
+private enum class Direction(val dx: Int, val dy: Int) {
+    UP(0, -1),
+    RIGHT(1, 0),
+    DOWN(0, 1),
+    LEFT(-1, 0);
+
+    fun isOpposite(d: Direction) = (dx == d.dx && dy == -d.dy) || (dy == d.dy && dx == -d.dx)
+}
