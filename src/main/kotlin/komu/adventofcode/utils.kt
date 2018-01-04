@@ -69,3 +69,20 @@ fun readTestInput(@Language("file-reference") path: String): String {
 
 fun readIntGrid(path: String): List<List<Int>> =
     readTestInput(path).linesToIntGrid()
+
+data class Point(val x: Int, val y: Int) {
+    operator fun plus(d: Direction) = Point(x + d.dx, y + d.dy)
+
+    companion object {
+        val ORIGIN = Point(0, 0)
+    }
+}
+
+enum class Direction(val dx: Int, val dy: Int) {
+    UP(0, -1),
+    RIGHT(1, 0),
+    DOWN(0, 1),
+    LEFT(-1, 0);
+
+    fun isOpposite(d: Direction) = (dx == d.dx && dy == -d.dy) || (dy == d.dy && dx == -d.dx)
+}
