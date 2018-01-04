@@ -73,6 +73,8 @@ fun readIntGrid(path: String): List<List<Int>> =
 data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = Point(x + d.dx, y + d.dy)
 
+    override fun toString() = "<$x, $y>"
+
     companion object {
         val ORIGIN = Point(0, 0)
     }
@@ -84,5 +86,14 @@ enum class Direction(val dx: Int, val dy: Int) {
     DOWN(0, 1),
     LEFT(-1, 0);
 
-    fun isOpposite(d: Direction) = (dx == d.dx && dy == -d.dy) || (dy == d.dy && dx == -d.dx)
+    val left: Direction
+        get() = values()[(ordinal + 3) % 4]
+
+    val right: Direction
+        get() = values()[(ordinal + 1) % 4]
+
+    val opposite: Direction
+        get() = values()[(ordinal + 2) % 4]
+
+    fun isOpposite(d: Direction) = dx == -d.dx && dy == -d.dy
 }
