@@ -108,8 +108,8 @@ private open class DuetState(val ops: List<DuetOp>,
                              val output: Send<BigInteger>) {
 
     private var pos = 0
-    private val regs = mutableMapOf<Reg, BigInteger>().apply {
-        this[Reg("p")] = pid.toBigInteger()
+    private val regs = mutableMapOf<DuetReg, BigInteger>().apply {
+        this[DuetReg("p")] = pid.toBigInteger()
     }
 
     val running: Boolean
@@ -123,23 +123,23 @@ private open class DuetState(val ops: List<DuetOp>,
         output.send(x.eval(regs))
     }
 
-    fun set(x: Reg, y: DuetSource) {
+    fun set(x: DuetReg, y: DuetSource) {
         regs[x] = y.eval(regs)
     }
 
-    fun add(x: Reg, y: DuetSource) {
+    fun add(x: DuetReg, y: DuetSource) {
         regs[x] = x.eval(regs) + y.eval(regs)
     }
 
-    fun mul(x: Reg, y: DuetSource) {
+    fun mul(x: DuetReg, y: DuetSource) {
         regs[x] = x.eval(regs) * y.eval(regs)
     }
 
-    fun mod(x: Reg, y: DuetSource) {
+    fun mod(x: DuetReg, y: DuetSource) {
         regs[x] = x.eval(regs) % y.eval(regs)
     }
 
-    fun rcv(x: Reg) {
+    fun rcv(x: DuetReg) {
         regs[x] = input.receive()
     }
 
@@ -212,20 +212,20 @@ private class DuetOp(val func: DuetState.() -> Unit) {
 }
 
 private fun String.toSource(): DuetSource =
-        if (this[0].isLetter()) toReg() else Const(BigInteger(this))
+        if (this[0].isLetter()) toReg() else DuetConst(BigInteger(this))
 
-private fun String.toReg(): Reg = Reg(this)
+private fun String.toReg(): DuetReg = DuetReg(this)
 
 private sealed class DuetSource {
-    abstract fun eval(regs: Map<Reg, BigInteger>): BigInteger
+    abstract fun eval(regs: Map<DuetReg, BigInteger>): BigInteger
 }
 
-private class Const(val value: BigInteger) : DuetSource() {
-    override fun eval(regs: Map<Reg, BigInteger>) = value
+private class DuetConst(val value: BigInteger) : DuetSource() {
+    override fun eval(regs: Map<DuetReg, BigInteger>) = value
     override fun toString() = value.toString()
 }
 
-private data class Reg(val name: String) : DuetSource() {
-    override fun eval(regs: Map<Reg, BigInteger>): BigInteger = regs[this] ?: BigInteger.ZERO
+private data class DuetReg(val name: String) : DuetSource() {
+    override fun eval(regs: Map<DuetReg, BigInteger>): BigInteger = regs[this] ?: BigInteger.ZERO
     override fun toString() = name
 }
