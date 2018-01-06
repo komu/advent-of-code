@@ -72,7 +72,9 @@ fun readIntGrid(path: String): List<List<Int>> =
     readTestInput(path).linesToIntGrid()
 
 data class Point(val x: Int, val y: Int) {
-    operator fun plus(d: Direction) = Point(x + d.dx, y + d.dy)
+    operator fun plus(d: Direction) = towards(d, 1)
+
+    fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
 
     override fun toString() = "<$x, $y>"
 
