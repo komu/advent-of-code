@@ -47,6 +47,9 @@ fun List<Int>.octetsToHex(): String = buildString {
     }
 }
 
+fun ByteArray.hexEncode(): String =
+    map { it.toInt() }.octetsToHex()
+
 val String.hexBits get() = flatMap { it.hexBits }
 
 private val Char.hexBits: List<Boolean>
