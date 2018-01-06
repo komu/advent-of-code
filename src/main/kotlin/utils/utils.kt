@@ -62,6 +62,9 @@ fun readTestInput(@Language("file-reference") path: String): String {
     return input.use { it.reader().readText() }
 }
 
+fun String.skipChars(offset: Int, step: Int): List<Char> =
+    drop(offset).windowed(size = 1, step = step).map { it.single() }
+
 fun readIntGrid(path: String): List<List<Int>> =
     readTestInput(path).linesToIntGrid()
 
