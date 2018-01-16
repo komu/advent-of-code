@@ -1,102 +1,104 @@
 package komu.adventofcode.aoc2015
 
-fun jsabacus(input: String, bailOnRed: Boolean = false) =
-        JsonCounter(input, bailOnRed).parseValue()
+fun jsabacus(input: String, bailOnRed: Boolean = false): Int {
+    val tree = JsonReader(input).parseValue()
 
-private class JsonCounter(input: String, private val bailOnRed: Boolean) {
-
-    private val reader = JsonReader(input)
-
-    fun parseValue(): Int? {
-        reader.skipSpace()
-        if (!reader.hasMore)
-            return 0
-
-        return when (reader.peek()) {
-            '{' -> parseObject()
-            '[' -> parseArray()
-            '"' -> {
-                val s = parseString()
-                if (s == "red" && bailOnRed)
-                    return null
-                else
-                    0
-            }
-            else -> parseNumber()
-        }
-    }
-
-    private fun parseObject(): Int {
-        reader.consume('{')
-
-        var red = false
-        var sum = 0
-        while (reader.peek() != '}') {
-            parseString()
-            reader.consume(':')
-            sum += parseValue() ?: run {
-                red = true
-                0
-            }
-            if (reader.peek() == ',')
-                reader.consume(',')
-        }
-
-        reader.consume('}')
-        return if (red) 0 else sum
-    }
-
-    private fun parseArray(): Int {
-        reader.consume('[')
-
-        var sum = 0
-        while (reader.peek() != ']') {
-            sum += parseValue() ?: 0
-            if (reader.peek() == ',')
-                reader.consume(',')
-        }
-
-        reader.consume(']')
-        return sum
-    }
-
-    private fun parseString(): String {
-        reader.consume('"')
-        val value = reader.takeWhile { it != '"' }
-        reader.consume('"')
-
-        return value
-    }
-
-    private fun parseNumber(): Int {
-        val value = reader.takeWhile { it == '-' || it.isDigit() }.toInt()
-        reader.skipSpace()
-        return value
-    }
+    return tree.sum(bailOnValue = if (bailOnRed) JsonString("red") else null)
 }
+
+private fun JsonValue.sum(bailOnValue: JsonValue? = null) : Int = when (this) {
+    is JsonNumber -> value
+    is JsonString -> 0
+    is JsonArray -> elements.sumBy { it.sum(bailOnValue) }
+    is JsonObject -> if (bailOnValue in map.values) 0 else map.values.sumBy { it.sum(bailOnValue) }
+}
+
+private sealed class JsonValue
+private data class JsonNumber(val value: Int) : JsonValue()
+private data class JsonString(val value: String) : JsonValue()
+private data class JsonObject(val map: Map<JsonString, JsonValue>) : JsonValue()
+private data class JsonArray(val elements: List<JsonValue>) : JsonValue()
 
 private class JsonReader(private val input: String) {
 
     private var index = 0
 
-    val hasMore get() = index < input.length
+    private val hasMore: Boolean
+        get() = index < input.length
 
-    fun peek() = input[index]
+    fun parseValue(): JsonValue {
+        skipSpace()
+        if (!hasMore)
+            error("unexpected eof")
 
-    fun read() = input[index++]
+        return when (peek()) {
+            '{' -> parseObject()
+            '[' -> parseArray()
+            '"' -> parseString()
+            else -> parseNumber()
+        }
+    }
 
-    fun consume(expected: Char) {
+    private fun parseObject(): JsonObject {
+        consume('{')
+
+        val map = mutableMapOf<JsonString, JsonValue>()
+        while (peek() != '}') {
+            val name = parseString()
+            consume(':')
+            map[name] = parseValue()
+            if (peek() == ',')
+                consume(',')
+        }
+
+        consume('}')
+        return JsonObject(map)
+    }
+
+    private fun parseArray(): JsonArray {
+        consume('[')
+
+        val elements = mutableListOf<JsonValue>()
+        while (peek() != ']') {
+            elements += parseValue()
+            if (peek() == ',')
+                consume(',')
+        }
+
+        consume(']')
+        return JsonArray(elements)
+    }
+
+    private fun parseString(): JsonString {
+        consume('"')
+        val value = takeWhile { it != '"' }
+        consume('"')
+
+        return JsonString(value)
+    }
+
+    private fun parseNumber(): JsonNumber {
+        val value = takeWhile { it == '-' || it.isDigit() }.toInt()
+        skipSpace()
+        return JsonNumber(value)
+    }
+
+    private fun peek() = input[index]
+
+    private fun read() = input[index++]
+
+    private fun consume(expected: Char) {
         check(peek() == expected) { "expected '$expected' but got '${peek()}'"}
         index++
         skipSpace()
     }
 
-    inline fun takeWhile(predicate: (Char) -> Boolean) = buildString {
+    private inline fun takeWhile(predicate: (Char) -> Boolean) = buildString {
         while (hasMore && predicate(peek()))
             append(read())
     }
 
-    fun skipSpace() {
+    private fun skipSpace() {
         while (hasMore && peek().isWhitespace())
             index++
     }
