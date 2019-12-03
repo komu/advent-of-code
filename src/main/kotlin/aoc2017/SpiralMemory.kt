@@ -1,11 +1,9 @@
 package komu.adventofcode.aoc2017
 
-import kotlin.coroutines.experimental.buildSequence
-
 fun spiralMemorySteps(index: Int): Int =
     distances().drop(index - 1).first()
 
-private fun distances(): Sequence<Int> = buildSequence {
+private fun distances(): Sequence<Int> = sequence {
     yield(0)
 
     for (n in 1..Int.MAX_VALUE) {
@@ -35,7 +33,7 @@ fun spiralPart2(input: Int): Int {
     error("unexpected")
 }
 
-fun coordinates(): Sequence<Coordinate> = buildSequence {
+fun coordinates(): Sequence<Coordinate> = sequence {
     var x = 0
     var y = 0
 
