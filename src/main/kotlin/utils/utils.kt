@@ -72,6 +72,19 @@ fun String.skipChars(offset: Int, step: Int): List<Char> =
 fun readIntGrid(path: String): List<List<Int>> =
     readTestInput(path).linesToIntGrid()
 
+fun digits(value: Int): List<Int> {
+    val result = mutableListOf<Int>()
+
+    var v = value
+    while (v != 0) {
+        result += (v % 10)
+        v /= 10
+    }
+
+    result.reverse()
+    return result
+}
+
 data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = towards(d, 1)
 
