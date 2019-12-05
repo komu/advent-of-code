@@ -117,3 +117,11 @@ enum class Direction(val dx: Int, val dy: Int) {
 
     fun isOpposite(d: Direction) = dx == -d.dx && dy == -d.dy
 }
+
+fun pow10(n: Int): Int {
+    var result = 1
+    repeat(n) {
+        result *= 10
+    }
+    return result
+}
