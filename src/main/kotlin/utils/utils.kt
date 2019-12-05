@@ -2,6 +2,7 @@ package komu.adventofcode.utils
 
 import org.intellij.lang.annotations.Language
 import java.util.*
+import kotlin.math.abs
 
 fun String.splitBySpace() =
     split(Regex("""\s+"""))
@@ -73,6 +74,9 @@ fun readIntGrid(path: String): List<List<Int>> =
 
 data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = towards(d, 1)
+
+    val manhattanDistanceFromOrigin: Int
+        get() = abs(x + y)
 
     fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
 
