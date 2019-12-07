@@ -125,3 +125,21 @@ fun pow10(n: Int): Int {
     }
     return result
 }
+
+fun <T> List<T>.permutations(): List<List<T>> {
+    if (size == 0) return emptyList()
+    if (size == 1) return listOf(this)
+    val result = mutableListOf<List<T>>()
+    val toInsert = first()
+    for (smaller in subList(1, size).permutations()) {
+        for (i in 0..smaller.size) {
+            val permutation = ArrayList<T>(smaller.size)
+
+            permutation += smaller.subList(0, i)
+            permutation += toInsert
+            permutation += smaller.subList(i, smaller.size)
+            result += permutation
+        }
+    }
+    return result
+}

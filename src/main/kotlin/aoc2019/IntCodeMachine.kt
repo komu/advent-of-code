@@ -1,6 +1,8 @@
 package aoc2019
 
 import komu.adventofcode.utils.pow10
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.atomic.AtomicInteger
 
 class IntCodeMachine(initialMemory: List<Int>) {
 
@@ -9,11 +11,26 @@ class IntCodeMachine(initialMemory: List<Int>) {
 
     constructor(input: String) : this(input.trim().split(",").map { it.toInt() })
 
-    var input = 0
+    private val input = LinkedBlockingDeque<Int>()
+    private val output = LinkedBlockingDeque<Int>()
+    private var lastOutput = AtomicInteger(-1)
+
     val size: Int
         get() = memory.size
 
-    val output = mutableListOf<Int>()
+    fun peekFirstOutput(): Int =
+        output.first
+
+    fun peekLastOutput(): Int =
+        lastOutput.get()
+
+    fun sendInput(vararg values: Int) {
+        for (value in values)
+            input.addLast(value)
+    }
+
+    fun readNext(): Int =
+        output.take()
 
     fun clone() = IntCodeMachine(memory)
 
@@ -39,11 +56,11 @@ class IntCodeMachine(initialMemory: List<Int>) {
                 }
                 3 -> {
                     val dst = memory[ip + 1]
-                    memory[dst] = input
+                    memory[dst] = input.takeFirst()
                     ip += 2
                 }
                 4 -> {
-                    output += param(1)
+                    writeOutput(param(1))
                     ip += 2
                 }
                 5 ->
@@ -70,6 +87,11 @@ class IntCodeMachine(initialMemory: List<Int>) {
                     error("unknown code $opcode")
             }
         }
+    }
+
+    private fun writeOutput(value: Int) {
+        output.put(value)
+        lastOutput.set(value)
     }
 
     private fun param(index: Int): Int {
