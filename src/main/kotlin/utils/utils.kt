@@ -143,3 +143,6 @@ fun <T> List<T>.permutations(): List<List<T>> {
     }
     return result
 }
+
+fun String.countOccurrences(element: Char): Int =
+    count { it == element }
