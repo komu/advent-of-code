@@ -12,7 +12,7 @@ fun amplificationCircuit1(input: String): Int {
                 val amp = machine.clone()
                 amp.sendInput(phase, v)
                 amp.run()
-                amp.peekFirstOutput()
+                amp.peekFirstOutput().toInt()
             }
         }
         .max()!!
@@ -33,7 +33,7 @@ fun amplificationCircuit2(input: String): Int {
         for (t in copiers)
             t.interrupt()
 
-        amps.last().peekLastOutput()
+        amps.last().peekLastOutput().toInt()
     }.max()!!
 }
 
