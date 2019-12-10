@@ -89,7 +89,10 @@ data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = towards(d, 1)
 
     val manhattanDistanceFromOrigin: Int
-        get() = abs(x + y)
+        get() = manhattanDistance(ORIGIN)
+
+    fun manhattanDistance(p: Point): Int =
+        abs(x - p.x) + abs(y - p.y)
 
     fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
 
