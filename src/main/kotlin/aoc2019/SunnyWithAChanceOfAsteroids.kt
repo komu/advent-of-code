@@ -5,7 +5,7 @@ fun sunnyWithAChangeOfAsteroids(input: String): Int {
 
     machine.sendInput(1)
     machine.run()
-    return machine.peekLastOutput().toInt()
+    return machine.outputToList().last().toInt()
 }
 
 fun sunnyWithAChangeOfAsteroids2(input: String): Int {
@@ -13,5 +13,5 @@ fun sunnyWithAChangeOfAsteroids2(input: String): Int {
 
     machine.sendInput(5)
     machine.run()
-    return machine.peekLastOutput().toInt()
+    return machine.outputToList().last().toInt()
 }

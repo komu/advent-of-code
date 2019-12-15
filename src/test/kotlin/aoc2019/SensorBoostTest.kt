@@ -18,14 +18,14 @@ internal class SensorBoostTest {
     fun `example 2`() {
         val machine = IntCodeMachine("1102,34915192,34915192,7,4,7,99,0")
         machine.run()
-        assertEquals(1219070632396864.toBigInteger(), machine.peekLastOutput())
+        assertEquals(1219070632396864.toBigInteger(), machine.outputToList().last())
     }
 
     @Test
     fun `example 3`() {
         val machine = IntCodeMachine("104,1125899906842624,99")
         machine.run()
-        assertEquals(1125899906842624.toBigInteger(), machine.peekLastOutput())
+        assertEquals(1125899906842624.toBigInteger(), machine.outputToList().last())
     }
 
     @Test

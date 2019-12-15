@@ -2,7 +2,6 @@ package aoc2019
 
 import komu.adventofcode.utils.Direction
 import komu.adventofcode.utils.Point
-import kotlin.concurrent.thread
 
 fun spacePolice1(input: String): Int =
     buildColorMap(input, 0).size
@@ -27,29 +26,31 @@ private fun buildColorMap(input: String, startColor: Int): MutableMap<Point, Int
     val machine = IntCodeMachine(input)
 
     val tileColors = mutableMapOf(Point.ORIGIN to startColor)
-    val t = thread {
-        var pos = Point.ORIGIN
-        var direction = Direction.UP
 
-        try {
-            while (!Thread.interrupted()) {
-                machine.sendInput(tileColors[pos] ?: 0)
-                val color = machine.readNext().toInt()
-                val turn = machine.readNext().toInt()
+    var pos = Point.ORIGIN
+    var direction = Direction.UP
+    val outputBuffer = mutableListOf<Int>()
 
-                direction = when (turn) {
-                    0 -> direction.left
-                    1 -> direction.right
-                    else -> error("invalid turn $turn")
-                }
-                tileColors[pos] = color
-                pos += direction
+    var nextInput = startColor
+    machine.readInput = { nextInput.toBigInteger() }
+    machine.writeOutput = { v ->
+        outputBuffer += v.toInt()
+
+        if (outputBuffer.size == 2) {
+            val (color, turn) = outputBuffer
+            outputBuffer.clear()
+
+            direction = when (turn) {
+                0 -> direction.left
+                1 -> direction.right
+                else -> error("invalid turn $turn")
             }
-        } catch (e: InterruptedException) {
+            tileColors[pos] = color
+            pos += direction
+            nextInput = tileColors[pos] ?: 0
         }
     }
 
     machine.run()
-    t.interrupt()
     return tileColors
 }

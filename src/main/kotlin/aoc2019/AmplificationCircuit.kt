@@ -1,6 +1,7 @@
 package aoc2019
 
 import komu.adventofcode.utils.permutations
+import java.util.concurrent.LinkedBlockingDeque
 import kotlin.concurrent.thread
 
 fun amplificationCircuit1(input: String): Int {
@@ -12,7 +13,7 @@ fun amplificationCircuit1(input: String): Int {
                 val amp = machine.clone()
                 amp.sendInput(phase, v)
                 amp.run()
-                amp.peekFirstOutput().toInt()
+                amp.outputToList().first().toInt()
             }
         }
         .max()!!
@@ -22,29 +23,26 @@ fun amplificationCircuit2(input: String): Int {
     val machine = IntCodeMachine(input)
 
     return listOf(5, 6, 7, 8, 9).permutations().map { phases ->
-        val amps = phases.map { phase -> machine.clone().apply { sendInput(phase) } }
-        val copiers = amps.indices.map { i -> amps[i].copyOutputTo(amps[(i + 1) % amps.size]) }
+        val inputs = phases.map { phase -> LinkedBlockingDeque<Int>(listOf(phase)) }
+        var lastOutput = 0
+        val amps = inputs.mapIndexed { i, input ->
+            val clone = machine.clone()
+            clone.readInput = { input.takeFirst().toBigInteger() }
+            clone.writeOutput = {
+                inputs[(i + 1) % inputs.size].addLast(it.toInt())
+                if (i == inputs.size -1)
+                    lastOutput = it.toInt()
+            }
+            clone
+        }
 
-        amps[0].sendInput(0)
+        inputs[0].addLast(0)
 
         for (t in amps.map { thread { it.run() } })
             t.join()
 
-        for (t in copiers)
-            t.interrupt()
-
-        amps.last().peekLastOutput().toInt()
+        lastOutput
     }.max()!!
 }
-
-private fun IntCodeMachine.copyOutputTo(dst: IntCodeMachine): Thread =
-    thread {
-        try {
-            while (!Thread.interrupted()) {
-                dst.sendInput(readNext())
-            }
-        } catch (e: InterruptedException) {
-        }
-    }
 
 

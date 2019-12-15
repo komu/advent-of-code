@@ -3,7 +3,6 @@ package aoc2019
 import komu.adventofcode.utils.pow10
 import java.math.BigInteger
 import java.util.concurrent.LinkedBlockingDeque
-import java.util.concurrent.atomic.AtomicReference
 
 private typealias Num = BigInteger
 
@@ -17,28 +16,17 @@ open class IntCodeMachine private constructor(
         private set
     private val input = LinkedBlockingDeque<Num>()
     private val output = LinkedBlockingDeque<Num>()
-    private var lastOutput = AtomicReference<Num>(ZERO)
 
     constructor(input: String) : this(Memory(input.trim().split(",").map { it.toBigInteger() }))
 
     var readInput: () -> BigInteger = { this.input.takeFirst() }
 
-    val memoryUse: Int
-        get() = memory.size
-
     fun peekFirstOutput(): Num =
         output.first
 
-    fun peekLastOutput(): Num =
-        lastOutput.get()
-
-    fun sendInput(vararg values: Num) {
-        for (value in values)
-            input.addLast(value)
-    }
-
     fun sendInput(vararg values: Int) {
-        sendInput(*values.map { it.toNum() }.toTypedArray())
+        for (value in values.map { it.toNum() }.toTypedArray())
+            input.addLast(value)
     }
 
     val outputSize: Int
@@ -107,7 +95,6 @@ open class IntCodeMachine private constructor(
 
     var writeOutput: (Num) -> Unit = { value ->
         output.put(value)
-        lastOutput.set(value)
     }
 
     private fun param(index: Int): Num {
