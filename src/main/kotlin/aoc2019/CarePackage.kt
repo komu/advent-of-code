@@ -1,7 +1,6 @@
 package aoc2019
 
 import komu.adventofcode.utils.Point
-import java.math.BigInteger.ZERO
 
 private const val TILE_PADDLE = 3
 private const val TILE_BALL = 4
@@ -37,7 +36,7 @@ fun carePackage2(input: String): Int {
                 1
             else ->
                 0
-        }.toBigInteger()
+        }
     }
 
     var score = 0
@@ -75,7 +74,7 @@ private fun IntCodeMachine.calculateExpectedPosition(): Int? {
     var seenInputAfterBall = false
     clone.readInput = {
         seenInputAfterBall = true
-        ZERO
+        0
     }
 
     var result: Int? = null

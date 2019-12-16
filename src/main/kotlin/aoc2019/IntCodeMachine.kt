@@ -1,41 +1,38 @@
 package aoc2019
 
 import komu.adventofcode.utils.pow10
-import java.math.BigInteger
 import java.util.concurrent.LinkedBlockingDeque
-
-private typealias Num = BigInteger
 
 open class IntCodeMachine private constructor(
     val memory: Memory,
-    private var ip: Num = ZERO,
-    private var relativeBase: Num = ZERO,
+    private var ip: Long = 0,
+    private var relativeBase: Long = 0,
     running: Boolean = true) {
 
     var running = running
         private set
-    private val input = LinkedBlockingDeque<Num>()
-    private val output = LinkedBlockingDeque<Num>()
+    private val input = LinkedBlockingDeque<Long>()
+    private val output = LinkedBlockingDeque<Long>()
 
-    constructor(input: String) : this(Memory(input.trim().split(",").map { it.toBigInteger() }))
+    constructor(input: String) : this(Memory(input.trim().split(",").map { it.toLong() }))
 
-    var readInput: () -> BigInteger = { this.input.takeFirst() }
+    var readInput: () -> Long = { this.input.takeFirst() }
 
-    fun peekFirstOutput(): Num =
+    fun peekFirstOutput(): Long =
         output.first
 
-    fun sendInput(vararg values: Int) {
-        for (value in values.map { it.toNum() }.toTypedArray())
+    fun sendInput(vararg values: Long) {
+        for (value in values)
             input.addLast(value)
     }
 
     val outputSize: Int
         get() = output.size
 
-    fun readNext(): Num =
+    fun readNext(): Long =
         output.take()
 
-    fun outputToList(): List<Num> =
+    fun outputToList(): List<Long> =
         output.toList()
 
     fun clone() = IntCodeMachine(memory.clone(), ip, relativeBase, running)
@@ -65,21 +62,21 @@ open class IntCodeMachine private constructor(
                 ip += 2
             }
             5 ->
-                if (param(1) != ZERO)
+                if (param(1) != 0L)
                     ip = param(2)
                 else
                     ip += 3
             6 ->
-                if (param(1) == ZERO)
+                if (param(1) == 0L)
                     ip = param(2)
                 else
                     ip += 3
             7 -> {
-                memory[absoluteAddress(3)] = if (param(1) < param(2)) ONE else ZERO
+                memory[absoluteAddress(3)] = if (param(1) < param(2)) 1L else 0L
                 ip += 4
             }
             8 -> {
-                memory[absoluteAddress(3)] = if (param(1) == param(2)) ONE else ZERO
+                memory[absoluteAddress(3)] = if (param(1) == param(2)) 1L else 0L
                 ip += 4
             }
             9 -> {
@@ -93,17 +90,17 @@ open class IntCodeMachine private constructor(
         }
     }
 
-    var writeOutput: (Num) -> Unit = { value ->
+    var writeOutput: (Long) -> Unit = { value ->
         output.put(value)
     }
 
-    private fun param(index: Int): Num {
+    private fun param(index: Int): Long {
         val op = memory[ip].toInt()
         val mode = (op / pow10(index + 1)) % 10
         return resolve(memory[ip + index], mode)
     }
 
-    private fun absoluteAddress(index: Int): Num {
+    private fun absoluteAddress(index: Int): Long {
         val op = memory[ip].toInt()
         val mode = (op / pow10(index + 1)) % 10
         val value = memory[ip + index]
@@ -115,43 +112,29 @@ open class IntCodeMachine private constructor(
         }
     }
 
-    private fun resolve(value: Num, mode: Int) = when (mode) {
+    private fun resolve(value: Long, mode: Int) = when (mode) {
         0 -> memory[value]
         1 -> value
         2 -> memory[relativeBase + value]
         else -> error("invalid addressing mode $mode for op ${memory[ip]}")
     }
 
-    class Memory(initial: List<Num>) {
+    class Memory(initial: List<Long>) {
         private val memory = initial.toMutableList()
 
-        operator fun get(i: Num): Num =
-            memory.getOrNull(i.toInt()) ?: ZERO
+        operator fun get(i: Long): Long =
+            memory.getOrNull(i.toInt()) ?: 0
 
-        operator fun get(i: Int): Num =
-            get(i.toNum())
-
-        operator fun set(index: Num, value: Num) {
+        operator fun set(index: Long, value: Long) {
             val i = index.toInt()
             while (i >= memory.size)
-                memory += ZERO
+                memory += 0
             memory[i] = value
         }
 
-        operator fun set(index: Int, value: Int) {
-            set(index.toNum(), value.toNum())
-        }
-
-        val size: Int = memory.size
+        val size: Int
+            get() = memory.size
 
         fun clone() = Memory(memory)
-    }
-
-    companion object {
-        private val ZERO = BigInteger.ZERO
-        private val ONE = BigInteger.ONE
-        private fun Int.toNum(): Num = toBigInteger()
-
-        private operator fun Num.plus(x: Int): Num = this + x.toNum()
     }
 }

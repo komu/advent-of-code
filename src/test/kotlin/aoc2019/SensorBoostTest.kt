@@ -18,23 +18,23 @@ internal class SensorBoostTest {
     fun `example 2`() {
         val machine = IntCodeMachine("1102,34915192,34915192,7,4,7,99,0")
         machine.run()
-        assertEquals(1219070632396864.toBigInteger(), machine.outputToList().last())
+        assertEquals(1219070632396864L, machine.outputToList().last())
     }
 
     @Test
     fun `example 3`() {
         val machine = IntCodeMachine("104,1125899906842624,99")
         machine.run()
-        assertEquals(1125899906842624.toBigInteger(), machine.outputToList().last())
+        assertEquals(1125899906842624L, machine.outputToList().last())
     }
 
     @Test
     fun `part 1`() {
-        assertEquals(3429606717.toBigInteger(), sensorBoost(1, readTestInput("/2019/SensorBoost.txt")))
+        assertEquals(3429606717L, sensorBoost(1, readTestInput("/2019/SensorBoost.txt")))
     }
 
     @Test
     fun `part 2`() {
-        assertEquals(33679.toBigInteger(), sensorBoost(2, readTestInput("/2019/SensorBoost.txt")))
+        assertEquals(33679L, sensorBoost(2, readTestInput("/2019/SensorBoost.txt")))
     }
 }

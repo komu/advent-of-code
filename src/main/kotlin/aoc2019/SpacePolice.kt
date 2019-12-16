@@ -32,7 +32,7 @@ private fun buildColorMap(input: String, startColor: Int): MutableMap<Point, Int
     val outputBuffer = mutableListOf<Int>()
 
     var nextInput = startColor
-    machine.readInput = { nextInput.toBigInteger() }
+    machine.readInput = { nextInput.toLong() }
     machine.writeOutput = { v ->
         outputBuffer += v.toInt()
 
