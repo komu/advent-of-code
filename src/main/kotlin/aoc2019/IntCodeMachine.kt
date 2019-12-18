@@ -42,6 +42,20 @@ open class IntCodeMachine private constructor(
             tick()
     }
 
+    fun sendInputAndWaitForOutput(input: Long): Long {
+        readInput = { input }
+
+        var output: Long? = null
+        writeOutput = { reply ->
+            output = reply
+        }
+
+        while (output == null)
+            tick()
+
+        return output!!
+    }
+
     fun tick() {
         val opcode = memory[ip]
         when (opcode.toInt() % 100) {

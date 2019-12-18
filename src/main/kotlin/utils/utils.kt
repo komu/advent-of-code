@@ -96,7 +96,13 @@ data class Point(val x: Int, val y: Int) {
 
     fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
 
+    val neighbors: List<Point>
+        get() = Direction.values().map { this + it }
+
     override fun toString() = "<$x, $y>"
+
+    fun directionOfNeighbor(neighbor: Point): Direction =
+        Direction.values().find { this + it == neighbor } ?: error("$neighbor is not a neighbor of $this")
 
     companion object {
         val ORIGIN = Point(0, 0)
