@@ -26,6 +26,12 @@ open class IntCodeMachine private constructor(
             input.addLast(value)
     }
 
+    fun writeLine(s: String) {
+        for (c in s)
+            sendInput(c.toLong())
+        sendInput('\n'.toLong())
+    }
+
     val outputSize: Int
         get() = output.size
 
