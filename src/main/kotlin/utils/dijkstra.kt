@@ -12,14 +12,14 @@ fun <T> shortestPathWithCost(from: T, isTarget: (T) -> Boolean, edges: (T) -> Li
     val initial = PathNode(from, null, 0)
     val nodes = mutableMapOf(from to initial)
     val queue = PriorityQueue<PathNode<T>>(setOf(initial))
-    var target: T? = null
+    val targets = mutableSetOf<T>()
 
     while (queue.isNotEmpty()) {
         val u = queue.remove()
 
         for ((v, cost) in edges(u.point)) {
             if (isTarget(v))
-                target = v
+                targets += v
 
             val newDistance = u.distance + cost
             val previousNode = nodes[v]
@@ -31,9 +31,9 @@ fun <T> shortestPathWithCost(from: T, isTarget: (T) -> Boolean, edges: (T) -> Li
         }
     }
 
-    if (target != null) {
+    val targetNode = targets.map { nodes[it]!! }.minBy { it.distance }
+    if (targetNode != null) {
         val result = mutableListOf<T>()
-        val targetNode = nodes[target]!!
         var node: PathNode<T>? = targetNode
         while (node?.previous != null) {
             result += node.point
