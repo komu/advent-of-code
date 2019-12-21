@@ -5,11 +5,11 @@ import aoc2019.MoveResult.WALL
 import komu.adventofcode.utils.Direction
 import komu.adventofcode.utils.Direction.*
 import komu.adventofcode.utils.Point
-import java.util.*
+import utils.shortestPathBetween
 
 fun oxygenSystem1(input: String): Int {
     val (floor, tank) = createMap(input)
-    return floor.shortestPath(Point.ORIGIN, tank).size
+    return floor.shortestPathOnFloor(Point.ORIGIN, tank).size
 }
 
 fun oxygenSystem2(input: String): Int {
@@ -46,7 +46,7 @@ private fun createMap(input: String): Pair<Set<Point>, Point> {
     while (queue.isNotEmpty()) {
         val target = queue.removeClosest(position)
 
-        val path = floor.shortestPath(position, target)
+        val path = floor.shortestPathOnFloor(position, target)
         for (node in path) {
             val direction = position.directionOfNeighbor(node)
             val result = machine.executeMove(direction)
@@ -75,39 +75,10 @@ private enum class MoveResult {
     WALL, MOVE, FOUND
 }
 
-private fun Set<Point>.shortestPath(from: Point, to: Point): List<Point> {
-    val initial = PathNode(to, null, 0)
-    val nodes = mutableMapOf(to to initial)
-    val queue = PriorityQueue<PathNode>(setOf(initial))
-
-    while (queue.isNotEmpty()) {
-        val u = queue.remove()
-
-        for (v in u.point.neighbors) {
-            if (v in this) {
-                val newDistance = u.distance + 1
-                val previousNode = nodes[v]
-                if (previousNode == null || newDistance < previousNode.distance) {
-                    val newNode = PathNode(v, u, newDistance)
-                    nodes[v] = newNode
-                    queue += newNode
-                }
-            }
-        }
-    }
-
-    val result = mutableListOf<Point>()
-    var node = nodes[from]?.previous
-    while (node != null) {
-        result += node.point
-        node = node.previous
-    }
-    return result
-}
-
-private class PathNode(val point: Point, val previous: PathNode?, val distance: Int) : Comparable<PathNode> {
-    override fun compareTo(other: PathNode) = distance.compareTo(other.distance)
-}
+private fun Set<Point>.shortestPathOnFloor(from: Point, to: Point): List<Point> =
+    shortestPathBetween(from, to) { p ->
+        p.neighbors.filter { it in this || it == to }
+    }!!
 
 private fun MutableSet<Point>.removeClosest(p: Point): Point {
     val closest = minBy { it.manhattanDistance(p) } ?: error("no points")
