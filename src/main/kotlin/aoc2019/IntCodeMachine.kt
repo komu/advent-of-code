@@ -51,6 +51,10 @@ open class IntCodeMachine private constructor(
     fun sendInputAndWaitForOutput(input: Long): Long {
         readInput = { input }
 
+        return waitForOutput()
+    }
+
+    fun waitForOutput(): Long {
         var output: Long? = null
         writeOutput = { reply ->
             output = reply
