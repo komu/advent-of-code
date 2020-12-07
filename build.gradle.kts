@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.60"
+    kotlin("jvm") version "1.4.20"
 }
 
 repositories {
@@ -11,8 +11,6 @@ repositories {
 val junitVersion = "5.5.2"
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
