@@ -7,17 +7,18 @@ import kotlin.math.atan2
 private typealias Angle = Double
 
 fun monitoringStation1(input: String): Int =
-    parseAsteroidMap(input).buildAngleMap().values.map { it.size }.max()!!
+    parseAsteroidMap(input).buildAngleMap().values.map { it.size }.maxOrNull()!!
 
 fun monitoringStation2(input: String): Int {
     val asteroids = parseAsteroidMap(input)
-    val (station, slopes) = parseAsteroidMap(input).buildAngleMap().entries.maxBy { it.value.size }!!
+    val (station, slopes) = parseAsteroidMap(input).buildAngleMap().entries.maxByOrNull { it.value.size }!!
 
     var count = 0
 
     val otherAsteroids = (asteroids - station)
     for (angle in slopes) {
-        val vaporized = otherAsteroids.filter { angleBetween(station, it) == angle }.minBy { station.manhattanDistance(it) }
+        val vaporized = otherAsteroids.filter { angleBetween(station, it) == angle }
+            .minByOrNull { station.manhattanDistance(it) }
         if (vaporized != null) {
             count++
 

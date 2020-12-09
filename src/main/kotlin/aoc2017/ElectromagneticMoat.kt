@@ -14,7 +14,7 @@ fun electromagneticMoat(input: String, longest: Boolean = false): Int {
 private fun moat(pin: Int, available: Set<Component>, comparator: Comparator<Result>): Result =
     available.filter { it.fits(pin) }.map { c ->
         moat(c.other(pin), available - c, comparator).add(c.strength)
-    }.maxWith(comparator) ?: Result(0, 0)
+    }.maxWithOrNull(comparator) ?: Result(0, 0)
 
 data class Result(val length: Int, val strength: Int) {
 

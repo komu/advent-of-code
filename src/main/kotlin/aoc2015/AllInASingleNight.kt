@@ -6,7 +6,7 @@ fun allInASingleNight(input: String, longest: Boolean = false): Int {
     val legs = Leg.parseAll(input)
     val cities = legs.flatMap { it.cities }.toSet()
 
-    val best = if (longest) Collection<Int>::max else Collection<Int>::min
+    val best = if (longest) Collection<Int>::maxOrNull else Collection<Int>::minOrNull
 
     fun recurse(currentCity: String, distance: Int, visited: List<String>): Int? {
         if (visited.size == cities.size)
@@ -35,7 +35,7 @@ private data class Leg(val from: String, val to: String, val distance: Int) {
         private val regex = Regex("""(.+) to (.+) = (\d+)""")
 
         fun parseAll(s: String): List<Leg> {
-            val legs = s.nonEmptyLines().map { Leg.parse(it) }
+            val legs = s.nonEmptyLines().map { parse(it) }
             return legs + legs.map { it.reverse() }
         }
 

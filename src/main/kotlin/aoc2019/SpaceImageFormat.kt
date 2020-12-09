@@ -3,7 +3,7 @@ package aoc2019
 import komu.adventofcode.utils.countOccurrences
 
 fun spaceImageFormat1(w: Int, h: Int, input: String): Int {
-    val minLayer = SpaceImage.parse(w, h, input).layers.minBy { l -> l.countOccurrences('0') }!!
+    val minLayer = SpaceImage.parse(w, h, input).layers.minByOrNull { it.countOccurrences('0') }!!
     return minLayer.countOccurrences('1') * minLayer.countOccurrences('2')
 }
 

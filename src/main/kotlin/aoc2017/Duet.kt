@@ -164,7 +164,7 @@ private class DuetOp(val func: DuetState.() -> Unit) {
         private val jgzRegex = Regex("""jgz (\w) (.+)""")
 
         fun parseOps(s: String) =
-                s.nonEmptyLines().map { DuetOp.parse(it) }
+                s.nonEmptyLines().map { parse(it) }
 
         fun parse(s: String): DuetOp {
             sndRegex.matchEntire(s)?.let { m ->

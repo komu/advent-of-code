@@ -28,8 +28,8 @@ private fun CharArray.hasNoInvalidLetters() = 'i' !in this && 'o' !in this && 'l
 private fun CharArray.hasPairs(): Boolean {
     val windowIndices = asList().windowed(2).withIndex().filter { it.value[0] == it.value[1] }.map { it.index }
 
-    val max = windowIndices.max() ?: return false
-    val min = windowIndices.min() ?: return false
+    val max = windowIndices.maxOrNull() ?: return false
+    val min = windowIndices.minOrNull() ?: return false
 
     return max - min >= 2
 }

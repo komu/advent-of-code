@@ -5,7 +5,7 @@ import java.util.Comparator.comparing
 import kotlin.math.sqrt
 
 fun particleSwarmClosest(input: String): Int =
-        Particle.parseAll(input).minWith(comparing(Particle::accelerationDistance)
+        Particle.parseAll(input).minWithOrNull(comparing(Particle::accelerationDistance)
                 .thenComparing(Particle::velocityDistance)
                 .thenComparing(Particle::positionDistance))!!.index
 

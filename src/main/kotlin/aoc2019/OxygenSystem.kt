@@ -81,7 +81,7 @@ private fun Set<Point>.shortestPathOnFloor(from: Point, to: Point): List<Point> 
     }!!
 
 private fun MutableSet<Point>.removeClosest(p: Point): Point {
-    val closest = minBy { it.manhattanDistance(p) } ?: error("no points")
+    val closest = minByOrNull { it.manhattanDistance(p) } ?: error("no points")
     remove(closest)
     return closest
 }

@@ -70,7 +70,7 @@ private class SourceMap {
 
 }
 
-class Wire(val name: String) : Source {
+class Wire(private val name: String) : Source {
     var input: Source? = null
     private val signal by lazy { input?.invoke() ?: error("wire '$name' is not initialized") }
 

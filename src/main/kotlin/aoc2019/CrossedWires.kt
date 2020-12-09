@@ -10,7 +10,7 @@ fun crossedWires(input: String): Int {
     val (wire1, wire2) = input.lines().take(2).map { parseWire(it) }
 
     val visited = wire1.points().toSet()
-    return wire2.points().filter { it in visited }.map { it.manhattanDistanceFromOrigin }.min() ?: Integer.MAX_VALUE
+    return wire2.points().filter { it in visited }.map { it.manhattanDistanceFromOrigin }.minOrNull() ?: Integer.MAX_VALUE
 }
 
 fun crossedWires2(input: String): Int {

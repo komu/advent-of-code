@@ -2,6 +2,7 @@ package komu.adventofcode.aoc2017
 
 import komu.adventofcode.utils.nonEmptyLines
 import java.math.BigInteger
+import kotlin.math.sqrt
 
 fun coprocessorConflagrationTest(input: String): Int {
     val ops = CCOp.parseOps(input)
@@ -20,7 +21,7 @@ fun coprocessorConflagrationTest2(): Int {
 
     for (num in 109900..126900 step 17) {
         val upper = num + 100
-        outer@ for (x in 2..Math.sqrt(upper.toDouble()).toInt())
+        outer@ for (x in 2..sqrt(upper.toDouble()).toInt())
             for (y in x..upper)
                 if (x * y == num) {
                     count++

@@ -53,8 +53,8 @@ class Actions(val write: Int, val move: TuringDirection, val nextState: String)
 
 class StateDefinition {
 
-    lateinit var onZero: Actions
-    lateinit var onOne: Actions
+    private lateinit var onZero: Actions
+    private lateinit var onOne: Actions
 
     operator fun get(b: Boolean) = if (b) onOne else onZero
 

@@ -37,11 +37,11 @@ private class Block private constructor(val size: Int) {
     }
 
     val pixelsOnCount: Int
-        get() = grid.sumBy { it.count { it == '#' } }
+        get() = grid.sumBy { r -> r.count { it == '#' } }
 
     override fun toString() = buildString {
         for (line in grid)
-            appendln(String(line))
+            appendLine(String(line))
     }
 
     fun enhance(rules: RuleBook) = when {
@@ -117,7 +117,7 @@ private class Rule(permutationIndices: List<List<Int>>, private val pattern: Str
         }
 
         private fun digitLists(vararg s: String): List<List<Int>> =
-                s.map { it.map { it.toInt() - '0'.toInt() } }
+                s.map { r -> r.map { it.toInt() - '0'.toInt() } }
     }
 }
 

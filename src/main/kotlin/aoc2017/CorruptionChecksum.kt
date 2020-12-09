@@ -1,7 +1,7 @@
 package komu.adventofcode.aoc2017
 
 fun corruptionChecksum(input: List<List<Int>>): Int =
-    input.sumBy { it.max()!! - it.min()!! }
+    input.sumBy { it.maxOrNull()!! - it.minOrNull()!! }
 
 fun corruptionChecksum2(input: List<List<Int>>): Int =
     input.sumBy { it.lineChecksum() }

@@ -8,8 +8,8 @@ fun spacePolice1(input: String): Int =
 
 fun spacePolice2(input: String): String {
     val colorMap = buildColorMap(input, 1)
-    val maxY = colorMap.map { it.key.y }.max()!!
-    val maxX = colorMap.map { it.key.x }.max()!!
+    val maxY = colorMap.map { it.key.y }.maxOrNull()!!
+    val maxX = colorMap.map { it.key.x }.maxOrNull()!!
 
     return buildString {
         for (y in 0..maxY) {
@@ -17,7 +17,7 @@ fun spacePolice2(input: String): String {
                 val color = colorMap[Point(x, y)] ?: 0
                 append(if (color == 0) ' ' else '#')
             }
-            appendln()
+            appendLine()
         }
     }
 }

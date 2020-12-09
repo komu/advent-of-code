@@ -17,7 +17,7 @@ fun heardYouLikeRegisters(input: String): Pair<Int, Int> {
         }
     }
 
-    return Pair(registers.values.max() ?: 0, max)
+    return Pair(registers.values.maxOrNull() ?: 0, max)
 }
 
 private class Operation(val register: String,

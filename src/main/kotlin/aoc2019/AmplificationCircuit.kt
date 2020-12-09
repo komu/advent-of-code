@@ -16,14 +16,14 @@ fun amplificationCircuit1(input: String): Long {
                 amp.outputToList().first()
             }
         }
-        .max()!!
+        .maxOrNull()!!
 }
 
 fun amplificationCircuit2(input: String): Int {
     val machine = IntCodeMachine(input)
 
     return listOf(5L, 6L, 7L, 8L, 9L).permutations().map { phases ->
-        val inputs = phases.map { phase -> LinkedBlockingDeque<Long>(listOf(phase)) }
+        val inputs = phases.map { phase -> LinkedBlockingDeque(listOf(phase)) }
         var lastOutput = 0
         val amps = inputs.mapIndexed { i, input ->
             val clone = machine.clone()
@@ -42,7 +42,7 @@ fun amplificationCircuit2(input: String): Int {
             t.join()
 
         lastOutput
-    }.max()!!
+    }.maxOrNull()!!
 }
 
 

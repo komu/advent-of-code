@@ -16,7 +16,7 @@ private class Grid(input: String) {
     operator fun get(y: Int) = rows[y]
 
     val usedSquares: Int
-        get() = rows.sumBy { it.count { it != 0 } }
+        get() = rows.sumBy { r -> r.count { it != 0 } }
 
     fun markAndCountRegions(): Int {
         var counter = 0

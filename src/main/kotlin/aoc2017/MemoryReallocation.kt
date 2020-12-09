@@ -23,7 +23,7 @@ fun memoryReallocation(offsets: List<Int>): Pair<Int,Int> {
 }
 
 private fun reallocate(state: List<Int>): List<Int> {
-    val maxIndex = state.indices.maxBy { state[it] }!!
+    val maxIndex = state.indices.maxByOrNull { state[it] }!!
     var slots = state[maxIndex]
 
     val result = state.toMutableList()

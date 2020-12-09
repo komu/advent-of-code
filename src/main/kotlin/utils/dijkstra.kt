@@ -11,7 +11,7 @@ fun <T> shortestPathBetween(from: T, to : T, edges: (T) -> List<T>): List<T>? =
 fun <T> shortestPathWithCost(from: T, isTarget: (T) -> Boolean, edges: (T) -> List<Pair<T, Int>>): Pair<List<T>, Int>? {
     val initial = PathNode(from, null, 0)
     val nodes = mutableMapOf(from to initial)
-    val queue = PriorityQueue<PathNode<T>>(setOf(initial))
+    val queue = PriorityQueue(setOf(initial))
     val targets = mutableSetOf<T>()
 
     while (queue.isNotEmpty()) {
@@ -31,7 +31,7 @@ fun <T> shortestPathWithCost(from: T, isTarget: (T) -> Boolean, edges: (T) -> Li
         }
     }
 
-    val targetNode = targets.map { nodes[it]!! }.minBy { it.distance }
+    val targetNode = targets.map { nodes[it]!! }.minByOrNull { it.distance }
     if (targetNode != null) {
         val result = mutableListOf<T>()
         var node: PathNode<T>? = targetNode

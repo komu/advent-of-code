@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Test data" pattern="file[advent-of-code]:src/test/resources//*" />
+</component>

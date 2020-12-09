@@ -58,12 +58,12 @@ fun coordinates(): Sequence<Coordinate> = sequence {
 }
 
 private fun Coordinate.neighbors(): List<Coordinate> =
-    neighorDeltas.map { this + it }
+    neighborDeltas.map { this + it }
 
 private operator fun Coordinate.plus(d: Pair<Int, Int>): Coordinate =
     Coordinate(first + d.first, second + d.second)
 
-private val neighorDeltas = listOf(
+private val neighborDeltas = listOf(
         Pair(0, 1), Pair(-1, 1),
         Pair(-1, 0), Pair(-1, -1),
         Pair(0, -1), Pair(1, -1),
