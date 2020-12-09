@@ -11,6 +11,7 @@ repositories {
 val junitVersion = "5.5.2"
 
 dependencies {
+    implementation("org.jetbrains:annotations:20.1.0")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
