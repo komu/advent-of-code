@@ -87,6 +87,7 @@ fun digits(value: Int): List<Int> {
 
 data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = towards(d, 1)
+    operator fun plus(d: Dir) = Point(x + d.dx, y + d.dy)
 
     val manhattanDistanceFromOrigin: Int
         get() = manhattanDistance(ORIGIN)
@@ -125,6 +126,18 @@ enum class Direction(val dx: Int, val dy: Int) {
         get() = values()[(ordinal + 2) % 4]
 
     fun isOpposite(d: Direction) = dx == -d.dx && dy == -d.dy
+}
+
+data class Dir(val dx: Int, val dy: Int) {
+
+    companion object {
+        val all = listOf(
+            Dir(0, 1), Dir(-1, 1),
+            Dir(-1, 0), Dir(-1, -1),
+            Dir(0, -1), Dir(1, -1),
+            Dir(1, 0), Dir(1, 1)
+        )
+    }
 }
 
 fun pow10(n: Int): Int {
