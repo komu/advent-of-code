@@ -179,4 +179,3 @@ fun gcd(x: Long, y: Long): Long {
 
 fun Iterable<Long>.product(): Long =
     fold(1L) { x, y -> x * y }
-
