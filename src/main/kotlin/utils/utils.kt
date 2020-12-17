@@ -87,7 +87,7 @@ fun digits(value: Int): List<Int> {
 
 data class Point(val x: Int, val y: Int) {
     operator fun plus(d: Direction) = towards(d, 1)
-    operator fun plus(d: Dir) = Point(x + d.dx, y + d.dy)
+    operator fun plus(d: Dir) = towards(d, 1)
 
     val manhattanDistanceFromOrigin: Int
         get() = manhattanDistance(ORIGIN)
@@ -96,6 +96,13 @@ data class Point(val x: Int, val y: Int) {
         abs(x - p.x) + abs(y - p.y)
 
     fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
+    fun towards(d: Dir, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
+
+    fun rotateClockwise() =
+        Point(y, -x)
+
+    fun rotateCounterClockwise() =
+        Point(-y, x)
 
     val neighbors: List<Point>
         get() = Direction.values().map { this + it }
@@ -137,6 +144,11 @@ data class Dir(val dx: Int, val dy: Int) {
             Dir(0, -1), Dir(1, -1),
             Dir(1, 0), Dir(1, 1)
         )
+
+        val NORTH = Dir(0, 1)
+        val SOUTH = Dir(0, -1)
+        val EAST = Dir(1, 0)
+        val WEST = Dir(-1, 0)
     }
 }
 
