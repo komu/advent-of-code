@@ -184,10 +184,11 @@ fun String.countOccurrences(element: Char): Int =
 fun <T> List<T>.choosePairs(): List<Pair<T, T>> =
     withIndex().flatMap { (index, a) -> subList(index + 1, size).map { b -> a to b } }
 
-fun lcm3(a: Long, b: Long, c: Long): Long {
-    val lcm = a * (b / gcd(a, b))
-    return c * (lcm / gcd(lcm, c))
-}
+fun lcm(a: Long, b: Long) =
+    a * (b / gcd(a, b))
+
+fun lcm3(a: Long, b: Long, c: Long): Long =
+    lcm(a, lcm(b, c))
 
 fun gcd(x: Long, y: Long): Long {
     var a = x
