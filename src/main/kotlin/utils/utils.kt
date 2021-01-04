@@ -205,3 +205,6 @@ fun gcd(x: Long, y: Long): Long {
 
 fun Iterable<Long>.product(): Long =
     fold(1L) { x, y -> x * y }
+
+inline fun <T> Iterable<T>.sumByLong(f: (T) -> Long): Long =
+    fold(0L) { s, x -> s + f(x) }
