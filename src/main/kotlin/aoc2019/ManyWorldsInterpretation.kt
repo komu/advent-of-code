@@ -11,7 +11,7 @@ private typealias CollectedKeys = Int
 fun manyWorldsInterpretation(input: String): Int =
     Vault.parse(input).solve()
 
-private class Vault(
+private class Vault private constructor(
     tiles: Collection<Tile>,
     private val starts: List<Tile>
 ) {

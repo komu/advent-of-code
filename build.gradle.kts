@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.20"
+    kotlin("jvm") version "1.6.0"
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 val junitVersion = "5.5.2"
