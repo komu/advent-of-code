@@ -37,4 +37,9 @@ class DonutMazeTest {
     fun `part 1`() {
         assertEquals(410, donutMaze1(readTestInput("/2019/DonutMaze.txt")))
     }
+
+    @Test
+    fun `part 2`() {
+        assertEquals(5084, donutMaze2(readTestInput("/2019/DonutMaze.txt")))
+    }
 }

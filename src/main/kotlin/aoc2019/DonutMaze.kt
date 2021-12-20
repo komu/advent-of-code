@@ -7,20 +7,50 @@ import utils.shortestPathBetween
 fun donutMaze1(input: String): Int {
     val maze = DonutMaze.parse(input)
 
-    val path = shortestPathBetween(maze.start, maze.end) { it.neighbors } ?: error("no path")
+    val path = shortestPathBetween(maze.start, maze.end) { it.directNeighbors + listOfNotNull(it.portalNeighbor) }
+        ?: error("no path")
 
     return path.size
 }
 
+fun donutMaze2(input: String): Int {
+    val maze = DonutMaze.parse(input)
+
+    val path = shortestPathBetween(
+        LeveledNode(maze.start, 0),
+        LeveledNode(maze.end, 0)) { it.neighbors }
+        ?: error("no path")
+
+    return path.size
+}
+
+private data class LeveledNode(val node: DonutNode, val level: Int) {
+
+    val neighbors: List<LeveledNode>
+        get() {
+            val directNeighbors = node.directNeighbors.map { LeveledNode(it, level) }
+
+            val portalNeighbor = node.portalNeighbor?.let {
+                when {
+                    node.portalDown && level < 25 -> LeveledNode(it, level + 1)
+                    !node.portalDown && level > 0 -> LeveledNode(it, level - 1)
+                    else -> null
+                }
+            }
+
+            return directNeighbors + listOfNotNull(portalNeighbor)
+        }
+}
+
 private class DonutMaze(
-    val start: Node,
-    val end: Node
+    val start: DonutNode,
+    val end: DonutNode,
 ) {
 
     companion object {
         fun parse(input: String): DonutMaze {
             val lines = input.nonEmptyLines()
-            val nodesByPoint = mutableMapOf<Point, Node>()
+            val nodesByPoint = mutableMapOf<Point, DonutNode>()
             var start: Point? = null
             var end: Point? = null
             val portalsInProgress = mutableMapOf<String, Point>()
@@ -47,7 +77,7 @@ private class DonutMaze(
                 for ((x, c) in line.withIndex()) {
                     when {
                         c == '.' ->
-                            nodesByPoint[Point(x, y)] = Node()
+                            nodesByPoint[Point(x, y)] = DonutNode()
 
                         c.isLetter() -> {
                             when {
@@ -74,24 +104,28 @@ private class DonutMaze(
             check(portalsInProgress.isEmpty() && start != null && end != null)
 
             for ((point, node) in nodesByPoint) {
-                val neighbors = mutableListOf<Node>()
                 val portal = portals[point]
-                if (portal != null)
-                    neighbors += nodesByPoint[portal]!!
+                if (portal != null) {
+                    node.portalDown = point.x in 4..79 && point.y in 4..90
+                    node.portalNeighbor = nodesByPoint[portal]!!
+                }
 
-                neighbors += point.neighbors.mapNotNull { nodesByPoint[it] }
-
-                node.neighbors = neighbors
+                node.directNeighbors = point.neighbors.mapNotNull { nodesByPoint[it] }
             }
 
-            return DonutMaze(
+            val maze = DonutMaze(
                 start = nodesByPoint[start!!] ?: error("no start"),
                 end = nodesByPoint[end!!] ?: error("no end")
             )
+
+            return maze
         }
     }
+}
 
-    class Node {
-        var neighbors = emptyList<Node>()
-    }
+private class DonutNode {
+    var directNeighbors = emptyList<DonutNode>()
+    var portalNeighbor: DonutNode? = null
+
+    var portalDown = false
 }
