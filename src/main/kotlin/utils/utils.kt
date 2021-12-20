@@ -48,6 +48,8 @@ fun List<Int>.octetsToHex(): String = buildString {
     }
 }
 
+fun square(x: Int) = x * x
+
 fun ByteArray.hexEncode(): String =
     map { it.toInt() }.octetsToHex()
 
