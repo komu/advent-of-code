@@ -45,5 +45,5 @@ fun <T> shortestPathWithCost(from: T, isTarget: (T) -> Boolean, edges: (T) -> Li
 }
 
 private class PathNode<T>(val point: T, val previous: PathNode<T>?, val distance: Int) : Comparable<PathNode<T>> {
-    override fun compareTo(other: PathNode<T>) = -distance.compareTo(other.distance)
+    override fun compareTo(other: PathNode<T>) = distance.compareTo(other.distance)
 }
