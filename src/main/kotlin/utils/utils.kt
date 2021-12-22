@@ -17,7 +17,7 @@ fun String.linesToIntGrid(): List<List<Int>> =
     nonEmptyLines().map(String::lineToInts)
 
 fun String.sorted(): String =
-    toList().sorted().joinToString()
+    toList().sorted().joinToString("")
 
 fun List<String>.withoutEmptyLines() =
     filter(String::isNotEmpty)
