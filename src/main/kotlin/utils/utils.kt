@@ -210,3 +210,34 @@ fun Iterable<Long>.product(): Long =
 
 inline fun <T> Iterable<T>.sumByLong(f: (T) -> Long): Long =
     fold(0L) { s, x -> s + f(x) }
+
+fun <T> checkEqual(a: T, b: T) {
+    if (a != b)
+        error("$a != $b")
+}
+
+fun multiplicativeInverse(a: Long, n: Long): Long {
+    var t = 0L
+    var newt = 1L
+    var r = n
+    var newr = a
+
+    while (newr != 0L) {
+        val quotient = r / newr
+
+        val tt = t - quotient * newt
+        val rr = r - quotient * newr
+        t = newt
+        newt = tt
+        r = newr
+        newr = rr
+    }
+
+    if (r > 1)
+        error("$a is not invertible mod $n")
+
+    if (t < 0)
+        t += n
+
+    return t
+}
