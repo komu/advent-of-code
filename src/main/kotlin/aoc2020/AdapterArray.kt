@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun adapterArray1(adapters: List<Int>): Int {
     var ones = 0

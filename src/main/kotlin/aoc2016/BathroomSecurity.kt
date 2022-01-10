@@ -1,4 +1,4 @@
-package aoc2016
+package komu.adventofcode.aoc2016
 
 import komu.adventofcode.utils.Direction
 import komu.adventofcode.utils.nonEmptyLines

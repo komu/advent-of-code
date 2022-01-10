@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun parseBoardingPassCode(code: String) =
     code.fold(0) { n, c -> n * 2 + if (c in "BR") 1 else 0 }

@@ -1,6 +1,5 @@
 package komu.adventofcode.aoc2019
 
-import aoc2019.IntCodeMachine
 import java.util.concurrent.LinkedBlockingDeque
 
 fun categorySix(input: String): Long {

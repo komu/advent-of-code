@@ -1,4 +1,4 @@
-package aoc201
+package komu.adventofcode.aoc2019
 
 import komu.adventofcode.utils.nonEmptyLines
 

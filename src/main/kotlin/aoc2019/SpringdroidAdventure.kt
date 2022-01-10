@@ -1,6 +1,5 @@
 package komu.adventofcode.aoc2019
 
-import aoc2019.IntCodeMachine
 import komu.adventofcode.utils.nonEmptyLines
 
 private fun evalSpringCode(input: String, code: String): Int {

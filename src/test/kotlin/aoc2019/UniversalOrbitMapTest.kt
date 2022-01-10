@@ -1,7 +1,5 @@
-package aoc2019
+package komu.adventofcode.aoc2019
 
-import aoc201.universalOrbitMap1
-import aoc201.universalOrbitMap2
 import komu.adventofcode.utils.readTestInput
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

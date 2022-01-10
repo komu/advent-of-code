@@ -1,7 +1,7 @@
-package aoc2019
+package komu.adventofcode.aoc2019
 
-import aoc2019.MoveResult.FOUND
-import aoc2019.MoveResult.WALL
+import komu.adventofcode.aoc2019.MoveResult.FOUND
+import komu.adventofcode.aoc2019.MoveResult.WALL
 import komu.adventofcode.utils.Direction
 import komu.adventofcode.utils.Direction.*
 import komu.adventofcode.utils.Point

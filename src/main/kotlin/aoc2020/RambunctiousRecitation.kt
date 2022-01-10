@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun rambunctiousRecitation1(startingNumbers: List<Int>) =
     rambunctiousRecitation(startingNumbers, 2020)

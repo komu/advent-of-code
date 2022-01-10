@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

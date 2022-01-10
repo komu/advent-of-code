@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun crabCups1(labels: String) =
     crapCups(labels, iterations = 100, maxLabel = 9).answer()

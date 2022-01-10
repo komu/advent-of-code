@@ -1,4 +1,4 @@
-package aoc2019
+package komu.adventofcode.aoc2019
 
 fun programAlarm(input: String, noun: Long, verb: Long): Long {
     val machine = IntCodeMachine(input)

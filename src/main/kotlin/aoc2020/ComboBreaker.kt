@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun comboBreaker1(cardKey: Long, doorKey: Long): Long =
     transformSubject(doorKey, detectLoopSize(cardKey))

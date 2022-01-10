@@ -1,4 +1,4 @@
-package aoc2019
+package komu.adventofcode.aoc2019
 
 import kotlin.math.absoluteValue
 

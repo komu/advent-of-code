@@ -1,7 +1,5 @@
-package komu.adventofcode.aoc2017
+package komu.adventofcode.aoc2019
 
-import aoc2019.theTyrannyOfTheRocketEquation
-import aoc2019.theTyrannyOfTheRocketEquation2
 import komu.adventofcode.utils.readTestInput
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

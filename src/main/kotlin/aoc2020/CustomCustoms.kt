@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun customCustoms1(data: String): Int =
     groupAnswers(data).sumBy { it.reduce { x, y -> x union y }.size }

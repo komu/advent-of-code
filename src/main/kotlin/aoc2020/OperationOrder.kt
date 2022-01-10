@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 fun operationOrder1(s: String) =
     ExpressionParser1(s).expr()

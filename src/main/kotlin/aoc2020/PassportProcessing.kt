@@ -1,4 +1,4 @@
-package aoc2020
+package komu.adventofcode.aoc2020
 
 private val fieldRegex = Regex("""(\w+):(\S+)""")
 private val heightRegex = Regex("""(\d+)(\w+)""")

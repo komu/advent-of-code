@@ -1,4 +1,4 @@
-package aoc2019
+package komu.adventofcode.aoc2019
 
 fun sunnyWithAChangeOfAsteroids(input: String): Int {
     val machine = IntCodeMachine(input)
