@@ -77,7 +77,6 @@ private class ModularNatural(private val value: Long, val modulo: Long) {
     operator fun plus(rhs: ModularNatural) = ModularNatural((value + rhs.value) % modulo, modulo)
     operator fun plus(rhs: Long) = plus(ModularNatural(rhs, modulo))
     operator fun minus(rhs: ModularNatural) = ModularNatural((value - rhs.value + modulo) % modulo, modulo)
-    operator fun div(rhs: ModularNatural) = times(rhs.multiplicativeInverse)
     operator fun times(rhs: ModularNatural) = times(rhs.value)
     operator fun times(rhs: Long) = ModularNatural((value.toBigInteger() * rhs.toBigInteger() % modulo.toBigInteger()).toLong(), modulo)
 
