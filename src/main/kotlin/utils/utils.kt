@@ -216,6 +216,11 @@ fun <T> checkEqual(a: T, b: T) {
         error("$a != $b")
 }
 
+fun <T> Collection<T>.powerset(): Set<Set<T>> = when {
+    isEmpty() -> setOf(setOf())
+    else -> drop(1).powerset().let { it + it.map { it + first() } }
+}
+
 fun multiplicativeInverse(a: Long, n: Long): Long {
     var t = 0L
     var newt = 1L

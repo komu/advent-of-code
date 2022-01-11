@@ -11,7 +11,7 @@ open class IntCodeMachine private constructor(
 
     var running = running
         private set
-    private val input = LinkedBlockingDeque<Long>()
+    val input = LinkedBlockingDeque<Long>()
     private val output = LinkedBlockingDeque<Long>()
 
     constructor(input: String) : this(Memory(input.trim().split(",").map { it.toLong() }))
