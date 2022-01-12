@@ -114,8 +114,16 @@ data class Point(val x: Int, val y: Int) {
     fun directionOfNeighbor(neighbor: Point): Direction =
         Direction.values().find { this + it == neighbor } ?: error("$neighbor is not a neighbor of $this")
 
+    fun isAdjacentTo(p: Point): Boolean {
+        val dx = abs(x - p.x)
+        val dy = abs(y - p.y)
+        return (dx == 1 && dy == 0) || (dx == 0 && dy == 1)
+    }
+
     companion object {
         val ORIGIN = Point(0, 0)
+
+        val readingOrderComparator = compareBy<Point> { it.y }.thenBy { it.x }
     }
 }
 
