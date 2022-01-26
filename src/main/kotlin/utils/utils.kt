@@ -97,8 +97,8 @@ data class Point(val x: Int, val y: Int) {
     fun manhattanDistance(p: Point): Int =
         abs(x - p.x) + abs(y - p.y)
 
-    fun towards(d: Direction, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
-    fun towards(d: Dir, distance: Int) = Point(x + distance * d.dx, y + distance * d.dy)
+    fun towards(d: Direction, distance: Int = 1) = Point(x + distance * d.dx, y + distance * d.dy)
+    fun towards(d: Dir, distance: Int = 1) = Point(x + distance * d.dx, y + distance * d.dy)
 
     fun rotateClockwise() =
         Point(y, -x)
