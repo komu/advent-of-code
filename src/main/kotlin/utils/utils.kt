@@ -109,6 +109,14 @@ data class Point(val x: Int, val y: Int) {
     val neighbors: List<Point>
         get() = Direction.values().map { this + it }
 
+    val allNeighbors: List<Point>
+        get() = buildList {
+            for (dy in -1..1)
+                for (dx in -1..1)
+                    if (dx != 0 || dy != 0)
+                        add(Point(x + dx, y + dy))
+        }
+
     override fun toString() = "<$x, $y>"
 
     fun directionOfNeighbor(neighbor: Point): Direction =
