@@ -1,6 +1,7 @@
 package komu.adventofcode.utils
 
 import org.intellij.lang.annotations.Language
+import java.security.MessageDigest
 import java.util.*
 import kotlin.math.abs
 
@@ -262,3 +263,6 @@ fun multiplicativeInverse(a: Long, n: Long): Long {
 
     return t
 }
+
+fun hexEncodedMd5Hash(s: String) =
+    MessageDigest.getInstance("MD5").digest(s.toByteArray()).hexEncode()
