@@ -5,12 +5,14 @@
       <w>colliders</w>
       <w>cryostasis</w>
       <w>defragmentation</w>
+      <w>hypernet</w>
       <w>passphrase</w>
       <w>passphrases</w>
       <w>spinlock</w>
       <w>sporifica</w>
       <w>springdroid</w>
       <w>stoichiometry</w>
+      <w>supernet</w>
     </words>
   </dictionary>
 </component>
