@@ -4,14 +4,18 @@ class VM(private val ipReg: Int, private val instructions: List<Instruction>) {
 
     val regs = mutableListOf(0, 0, 0, 0, 0, 0)
 
+    val currentInstruction: Instruction?
+        get() = instructions.getOrNull(regs[ipReg])
+
     fun run() {
-        while (true)
+        while (true) {
             if (!step())
                 break
+        }
     }
 
     fun step(): Boolean {
-        val instruction = instructions.getOrNull(regs[ipReg]) ?: return false
+        val instruction = currentInstruction ?: return false
         instruction.evaluate(regs)
         regs[ipReg] += 1
         return true

@@ -40,6 +40,14 @@ fun <T> MutableList<T>.rotate(distance: Int) {
     Collections.rotate(this, distance)
 }
 
+fun BitSet.add(b: Int): Boolean {
+    if (get(b))
+        return false
+
+    set(b, true)
+    return true
+}
+
 private const val HEX_CHARS = "0123456789abcdef"
 
 fun List<Int>.octetsToHex(): String = buildString {
