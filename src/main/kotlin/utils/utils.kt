@@ -208,6 +208,9 @@ fun <T> List<T>.permutations(): List<List<T>> {
 fun String.countOccurrences(element: Char): Int =
     count { it == element }
 
+fun CharArray.countOccurrences(element: Char): Int =
+    count { it == element }
+
 fun <T> List<T>.choosePairs(): List<Pair<T, T>> =
     withIndex().flatMap { (index, a) -> subList(index + 1, size).map { b -> a to b } }
 
