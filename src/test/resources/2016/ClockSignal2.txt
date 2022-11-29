@@ -1,0 +1,41 @@
+    cpy a d
+    cpy 7 c
+L1:
+    cpy 362 b
+L2:
+    inc d
+    dec b
+    jnz b L2
+    dec c
+    jnz c L1
+L11:
+    cpy d a
+L10:
+    jnz 0 0
+    cpy a b
+    cpy 0 a
+L6:
+    cpy 2 c
+L5:
+    jnz b L3
+    jnz 1 L4
+L3:
+    dec b
+    dec c
+    jnz c L5
+    inc a
+    jnz 1 L6
+L4:
+    cpy 2 b
+L7:
+    jnz c L8
+    jnz 1 L9
+L8:
+    dec b
+    dec c
+    jnz 1 L7
+L9:
+    jnz 0 0
+    out b
+    jnz a L10
+    jnz 1 L11

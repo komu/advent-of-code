@@ -22,25 +22,41 @@ internal open class AssembunnyVM(code: String) {
     var ip = 0
     private val registers = EnumMap<Reg, Int>(Reg::class.java)
 
+    fun stop() {
+        ip = Int.MAX_VALUE
+    }
+
     open fun step() {
         val oldIp = ip
         when (val inst = instructions[ip++]) {
             is AssembunnyInstruction.Cpy ->
                 registers[inst.y] = eval(inst.x)
+
             is AssembunnyInstruction.Inc ->
                 registers[inst.x] = eval(inst.x) + 1
+
             is AssembunnyInstruction.Dec ->
                 registers[inst.x] = eval(inst.x) - 1
+
             is AssembunnyInstruction.Jnz ->
                 if (eval(inst.x) != 0)
                     ip = oldIp + eval(inst.y)
+
             is AssembunnyInstruction.Toggle -> {
                 val index = oldIp + eval(inst.x)
                 if (index in instructions.indices)
                     instructions[index] = instructions[index].toggle()
             }
+
+            is AssembunnyInstruction.Out ->
+                out(eval(inst.x))
+
             AssembunnyInstruction.Invalid -> {}
         }
+    }
+
+    open fun out(value: Int) {
+        println(value)
     }
 
     fun matches(vararg expected: AssembunnyInstruction): Boolean {
@@ -73,6 +89,7 @@ internal sealed class AssembunnyInstruction {
     fun toggle() = when (this) {
         is Inc -> Dec(x)
         is Dec -> Inc(x)
+        is Out -> if (x is Reg) Inc(x) else Invalid
         is Toggle -> if (x is Reg) Inc(x) else Invalid
         is Cpy -> Jnz(x, y)
         is Jnz -> if (y is Reg) Cpy(x, y) else Invalid
@@ -83,9 +100,11 @@ internal sealed class AssembunnyInstruction {
     data class Inc(val x: Reg) : AssembunnyInstruction()
     data class Dec(val x: Reg) : AssembunnyInstruction()
     data class Jnz(val x: Value, val y: Value) : AssembunnyInstruction() {
-        constructor(x: Value, y: Int): this(x, Constant(y))
+        constructor(x: Value, y: Int) : this(x, Constant(y))
     }
+
     data class Toggle(val x: Value) : AssembunnyInstruction()
+    data class Out(val x: Value) : AssembunnyInstruction()
     object Invalid : AssembunnyInstruction()
 
     companion object {
@@ -98,6 +117,7 @@ internal sealed class AssembunnyInstruction {
                 "dec" -> Dec(parts[1].toReg())
                 "jnz" -> Jnz(parts[1].toValue(), parts[2].toValue())
                 "tgl" -> Toggle(parts[1].toValue())
+                "out" -> Out(parts[1].toValue())
                 else -> error("invalid instruction '$s'")
             }
         }
