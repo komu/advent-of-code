@@ -249,6 +249,11 @@ fun <T> Collection<T>.powerset(): Set<Set<T>> = when {
     else -> drop(1).powerset().let { it + it.map { it + first() } }
 }
 
+fun <T> Collection<T>.powerList(): List<List<T>> = when {
+    isEmpty() -> listOf(listOf())
+    else -> drop(1).powerList().let { it + it.map { it + first() } }
+}
+
 fun multiplicativeInverse(a: Long, n: Long): Long {
     var t = 0L
     var newt = 1L
