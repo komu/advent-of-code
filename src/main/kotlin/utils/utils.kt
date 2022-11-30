@@ -64,11 +64,17 @@ fun ByteArray.hexEncode(): String =
 
 val String.hexBits get() = flatMap { it.hexBits }
 
+fun <T> List<T>.contentMatch(at: Int, xs: List<T>): Boolean =
+    (at + xs.size <= size) && xs.indices.all { this[at + it] == xs[it] }
+
 private val Char.hexBits: List<Boolean>
     get() {
         val value = HEX_CHARS.indexOf(this.toLowerCase())
         return Array(4) { i -> ((value shr (3 - i)) and 1) != 0 }.asList()
     }
+
+fun Boolean.toBit(): Int =
+    if (this) 1 else 0
 
 private val classLoader = object {}.javaClass.classLoader
 
