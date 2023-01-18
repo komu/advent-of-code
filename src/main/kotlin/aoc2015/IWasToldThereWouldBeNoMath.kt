@@ -2,34 +2,24 @@ package komu.adventofcode.aoc2015
 
 import komu.adventofcode.utils.nonEmptyLines
 
-fun totalWrappingPaperNeeded(s: String) =
-        s.nonEmptyLines().map { Box.parse(it) }.sumBy { it.wrappingNeeded() }
+fun totalWrappingPaperNeeded(s: String) = s.nonEmptyLines().sumOf {
+    val (l, w, h) = parseBox(it)
 
-fun totalRibbonNeeded(s: String) =
-        s.nonEmptyLines().map { Box.parse(it) }.sumBy { it.ribbonNeeded() }
+    val s1 = l * w
+    val s2 = w * h
+    val s3 = h * l
 
-class Box(private val length: Int, private val width: Int, private val height: Int) {
-
-    fun wrappingNeeded(): Int {
-        val side1 = length * width
-        val side2 = width * height
-        val side3 = height * length
-        val extra = side1.coerceAtMost(side2).coerceAtMost(side3)
-
-        return 2 * side1 + 2 * side2 + 2 * side3 + extra
-    }
-
-    fun ribbonNeeded(): Int {
-        val wrap = ((length + width + height) - (length.coerceAtLeast(width).coerceAtLeast(height))) * 2
-        val bow = length * width * height
-
-        return wrap + bow
-    }
-
-    companion object {
-        fun parse(s: String): Box {
-            val (l, w, h) = s.split("x").map { it.toInt() }
-            return Box(l, w, h)
-        }
-    }
+    2 * s1 + 2 * s2 + 2 * s3 + minOf(s1, s2, s3)
 }
+
+fun totalRibbonNeeded(s: String) = s.nonEmptyLines().sumOf {
+    val (l, w, h) = parseBox(it)
+
+    val wrap = ((l + w + h) - (l.coerceAtLeast(w).coerceAtLeast(h))) * 2
+    val bow = l * w * h
+
+    wrap + bow
+}
+
+private fun parseBox(s: String) =
+    s.split("x").map { it.toInt() }
