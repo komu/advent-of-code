@@ -69,7 +69,7 @@ fun <T> List<T>.contentMatch(at: Int, xs: List<T>): Boolean =
 
 private val Char.hexBits: List<Boolean>
     get() {
-        val value = HEX_CHARS.indexOf(this.toLowerCase())
+        val value = HEX_CHARS.indexOf(this.lowercaseChar())
         return Array(4) { i -> ((value shr (3 - i)) and 1) != 0 }.asList()
     }
 
